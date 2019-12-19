@@ -1,6 +1,41 @@
-//create show to guess array
-var shows = ["knight rider", "cheers", "the cosby show", "miami vice", "mash", "family ties", "night court", "macgyver", "moonlighting", "full house"]
+//wait to execute until page is loaded
+document.addEventListener("DOMContentLoaded"),
+    function() {
 
+    };
+
+
+
+
+
+//create show to guess array
+var shows = ["dynasty", "growing pains", "the a team", "alf", "knight rider", "cheers", "the cosby show", "miami vice", "mash", "family ties", "night court", "macgyver", "moonlighting", "full house"]
+
+
+
+
+
+//global variables
+var randomShow = "";
+var guessedLetters = [];
+var wordToGuess = []
+var letterBlanks = 0;
+var numGuesses
+
+
+//constant
+const maxGuess = 10
+
+//counters
+var wins = 0;
+var remainingGuesses = 10;
+
+//initiate play
+document.onkeyup = function(event) {
+    if (isAlpha(event.key) && !pauseGame) {
+        checkForLetter(event.key.toUpperCase())
+    }
+}
 
 //pick random show
 var show = shows[Math.floor(Math.random() * shows.length)];
@@ -14,34 +49,11 @@ for (var i = 0; i < show.length; i++); {
 console.log(answerArray);
 
 
-//global variables
-var randomShow = "";
-var lettersToGuess = []
-var letterBlanks = 0;
-
-
-
-
-
-//counters
-var wins = 0;
-var losses = 0;
-var = remainingGuesses = 10;
-
-
-
-
-//pick random word
-
-//show player theri progress
-//get players guess
-
-
-//if the player wants to quit
-//quit game
-
-//else if guess is not single letter 
-//tell player to pick single letter
-
-//else if guess is in the word
-//update palyer progress
+//HTML wires
+function updateStats() {
+    document.getElementById("wins").innerText =
+        document.getElementById("currentWord").innerText = wordToGuess.join("")
+    document.getElementById("remainingGuesses").innerText = numGuesses
+    document.getElementById("already-guessed").innerText = guessedLetters.join("")
+}
+})
