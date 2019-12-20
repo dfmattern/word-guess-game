@@ -1,59 +1,63 @@
 //wait to execute until page is loaded
-document.addEventListener("DOMContentLoaded"),
-    function() {
-
-    };
-
+//$(document).ready(function() {
 
 
 
 
 //create show to guess array
-var shows = ["dynasty", "growing pains", "the a team", "alf", "knight rider", "cheers", "the cosby show", "miami vice", "mash", "family ties", "night court", "macgyver", "moonlighting", "full house"]
-
-
-
-
+var showsToGuess = ["dynasty", "growing pains", "the a team", "alf", "knight rider", "cheers", "the cosby show", "miami vice", "mash", "family ties", "night court", "macgyver", "moonlighting", "full house"]
 
 //global variables
 var randomShow = "";
-var guessedLetters = [];
-var wordToGuess = []
 var letterBlanks = 0;
+var guessedLetters = []
 var numGuesses
-
-
-//constant
-const maxGuess = 10
+var show
 
 //counters
 var wins = 0;
 var remainingGuesses = 10;
 
-//initiate play
-document.onkeyup = function(event) {
-    if (isAlpha(event.key) && !pauseGame) {
-        checkForLetter(event.key.toUpperCase())
+//constant
+const maxGuess = 10
+
+
+
+function generate() {
+    //pick random show
+    var randomShow = showsToGuess[Math.floor(Math.random() * showsToGuess.length)];
+
+    guessedLetters = randomShow;
+
+    answerBlanks = guessedLetters.length;
+
+
+
+    //create answer array
+    for (var i = 0; i < showsToGuess.length; i++); {
+        answerBlanks[i] = "_";
     }
+
+    document.getElementById("currentWord").innerHTML = " " + answerBlanks.join("_");
 }
 
-//pick random show
-var show = shows[Math.floor(Math.random() * shows.length)];
-console.log(show);
+//check if letter matches letter in randomShow
+function letterMatch(letter) {
+    var letterInRandomShow = false;
+    for (var i = 0; i < answerBlanks; i++) {
+        if (randomShow[i] == letter) {
+            letterInRandomShow = true;
+        }
+    }
 
-//answer
-var answerArray = [];
-for (var i = 0; i < show.length; i++); {
-    answerArray[i] = "_";
+    if (letterInRandomShow) {
+        for (var i = 0; i < answerBlanks; i++) {
+            if (randomShow[i] == letter) {
+                answerBlanks[i] = letter;
+            }
+        }
+    } else {
+        remainingGuesses--;
+    }
+    console.log(answerBlanks);
 }
-console.log(answerArray);
-
-
-//HTML wires
-function updateStats() {
-    document.getElementById("wins").innerText =
-        document.getElementById("currentWord").innerText = wordToGuess.join("")
-    document.getElementById("remainingGuesses").innerText = numGuesses
-    document.getElementById("already-guessed").innerText = guessedLetters.join("")
-}
-})
