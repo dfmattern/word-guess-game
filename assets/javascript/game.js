@@ -1,63 +1,113 @@
 //wait to execute until page is loaded
-//$(document).ready(function() {
-
-
-
+document.addEventListener("DOMContentLoaded", function() {
+  //console.log("Game Start")
+});
 
 //create show to guess array
-var showsToGuess = ["dynasty", "growing pains", "the a team", "alf", "knight rider", "cheers", "the cosby show", "miami vice", "mash", "family ties", "night court", "macgyver", "moonlighting", "full house"]
+let shows = [
+  "dynasty",
+  "growing pains",
+  "the a team",
+  "alf",
+  "knight rider",
+  "cheers",
+  "the cosby show",
+  "miami vice",
+  "mash",
+  "family ties",
+  "night court",
+  "macgyver",
+  "moonlighting",
+  "full house"
+];
+//console.log(shows);
 
 //global variables
-var randomShow = "";
-var letterBlanks = 0;
-var guessedLetters = []
-var numGuesses
-var show
+let showToGuess = "";
+let lettersOfShow = [];
+let letterBlanks = "";
 
-//counters
-var wins = 0;
-var remainingGuesses = 10;
+let wins = 0;
+let remainingGuesses = 10;
+let guessedLetters = [];
+let correctLettersGuessed = [];
+displayShowToGuess();
+resetGame();
 
-//constant
-const maxGuess = 10
+//start game
 
+document.onkeyup = function(event) {
+  let guesses = String.fromCharCode(event.keyCode).toLowerCase();
+  //console.log(guesses);
 
+  //pick random show
 
-function generate() {
-    //pick random show
-    var randomShow = showsToGuess[Math.floor(Math.random() * showsToGuess.length)];
+  let randomShow = shows[Math.floor(Math.random() * shows.length)];
+  showToGuess = shows[randomShow];
+  console.log(showToGuess);
+  displayShowToGuess();
 
-    guessedLetters = randomShow;
+  //generate number of blanks for player to guess
 
-    answerBlanks = guessedLetters.length;
-
-
-
-    //create answer array
-    for (var i = 0; i < showsToGuess.length; i++); {
-        answerBlanks[i] = "_";
+  function displayShowToGuess() {
+    let displayBlanks = "";
+    for (let i = 0; i < showToGuess.length; i++) {
+      let currentLetter = showToGuess[i];
+      if (guessedLetters.includes(guesses)) {
+        displayShowToGuess += guesses;
+      } else {
+        displayBlanks += " ";
+      }
+      console.log(displayShowToGuess);
     }
+  }
 
-    document.getElementById("currentWord").innerHTML = " " + answerBlanks.join("_");
+  lettersOfShow = displayBlanks.split("");
+  console.log(lettersOfShow);
+
+  letterBlanks = lettersOfShow.join(" ");
+  console.log(letterBlanks);
+
+  document.getElementById("currentWord").innerText = displayBlanks;
+  return displayShowToGuess;
+};
+
+//add letter to guessed letters
+
+guessedLetters.push(guesses);
+console.log(guessedLetters);
+
+//update display with letters guessed
+
+let guessesSoFar = displayShowToGuess();
+document.getElementById("alreadyGuessed").innerText = guessesSoFar;
+
+//player win
+
+if (!displayShowToGuess.includes("_")) {
+  winGame();
+} else {
+  ///decrement remainingGuesses
+
+  if (!showToGuess.includes(guesses)) {
+    remainingGuesses--;
+  }
+  document.getElementById("guessesleft").innertext = remainingGuesses;
+  if (remainingGuesses <= 0) {
+    loseGame();
+  }
 }
 
-//check if letter matches letter in randomShow
-function letterMatch(letter) {
-    var letterInRandomShow = false;
-    for (var i = 0; i < answerBlanks; i++) {
-        if (randomShow[i] == letter) {
-            letterInRandomShow = true;
-        }
-    }
+function winGame() {
+  alert("You Won!");
+}
 
-    if (letterInRandomShow) {
-        for (var i = 0; i < answerBlanks; i++) {
-            if (randomShow[i] == letter) {
-                answerBlanks[i] = letter;
-            }
-        }
-    } else {
-        remainingGuesses--;
-    }
-    console.log(answerBlanks);
+function loseGame() {
+  alert("You Lost!");
+}
+
+function resetGame() {
+  showToGuess = shows[randomShow];
+  remainingGuesses = 10;
+  guessedLetters = [];
 }
